@@ -1,0 +1,350 @@
+/* =======================
+   Design Tokens (CSS Vars)
+   ======================= */
+:root {
+  /* Colors */
+  --sky-1: #65c6ff;
+  --sky-2: #71cbff;
+  --grass-1: #58b75c;
+  --grass-2: #3c8e3c;
+  --grass-border: #2e6e2e;
+
+  --pipe-1: #2ecc71;
+  --pipe-2: #27ae60;
+  --pipe-border: #145a32;
+  --pipe-lip-1: #34e67a;
+  --pipe-lip-2: #1e8449;
+
+  --btn-1: #0ea5e9;
+  --btn-2: #0284c7;
+
+  --white: #ffffff;
+  --ink: #0b2239;
+
+  /* Elevation */
+  --shadow-container: 0 10px 30px rgba(0,0,0,0.15);
+  --shadow-grass: inset 0 4px 6px rgba(0,0,0,0.25);
+  --shadow-bird: 0 4px 8px rgba(0,0,0,0.25);
+  --shadow-pipe: 0 6px 14px rgba(0,0,0,0.25);
+  --shadow-pipe-inset: inset 0 0 0 2px rgba(255,255,255,0.15);
+  --shadow-btn: 0 6px 14px rgba(14,165,233,0.35);
+  --shadow-btn-hover: 0 10px 20px rgba(14,165,233,0.45);
+  --shadow-text: 0 2px 6px rgba(0,0,0,0.5);
+
+  /* Sizes */
+  --radius-container: 16px;
+  --radius-pipe: 6px;
+  --radius-pipe-lip: 8px;
+  --radius-btn: 10px;
+  --grass-h: 60px;
+  --grass-border-w: 4px;
+  --pipe-border-w: 2px;
+  --pipe-lip-h: 20px;
+  --pipe-lip-offset: 6px;
+
+  /* Motion */
+  --t-btn: transform .08s ease, box-shadow .15s ease, background .2s ease;
+}
+
+/* =======================
+   Base / Reset
+   ======================= */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--ink);
+  line-height: 1.5;
+  margin: 0;
+  overflow: hidden;
+
+  /* خلفية أساسية: تدرج سماء */
+  background: radial-gradient(circle at 50% 20%, #aee8ff 0%, #65c6ff 40%, #71cbff 100%);
+  min-height: 100vh;
+
+  /* غيوم متحركة */
+  background-image: url("./pictures/clouds.png"),
+                    radial-gradient(circle at 50% 20%, #aee8ff 0%, #65c6ff 40%, #71cbff 100%);
+  background-repeat: repeat-x, no-repeat;
+  background-size: 800px auto, cover;
+  background-position: top 0 left 0, center;
+
+  animation: cloudsBg 180s linear infinite;
+}
+
+/* حركة الغيوم */
+@keyframes cloudsBg {
+  from { background-position-x: 0, center; }
+  to   { background-position-x: -2400px, center; }
+}
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  display: block;
+}
+
+/* =======================
+   Layout
+   ======================= */
+.game_container {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.game_area {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-container);
+  box-shadow: var(--shadow-container);
+  /* عرض مرن ليلائم الموبايل */
+  width: clamp(320px, 90vw, 600px);
+  /* الخلفية: سماء → سماء أغمق → تدرج للأرض */
+  background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 80%, #8fd77f 100%);
+  isolation: isolate;
+  outline: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+/* =======================
+   Background Layers
+   ======================= */
+/* Clouds */
+.game_area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("./pictures/clouds.png");
+  background-size: 440px auto;
+  background-repeat: repeat-x;
+  background-position: top left;
+  animation: cloudsMove 140s linear infinite;
+  z-index: 0;
+  opacity: .6;
+}
+
+@keyframes cloudsMove {
+  from { background-position-x: 0; }
+  to   { background-position-x: -2000px; }
+}
+
+/* Ground */
+.game_area::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: var(--grass-h);
+  background: linear-gradient(180deg, var(--grass-1) 0%, var(--grass-2) 100%);
+  border-top: var(--grass-border-w) solid var(--grass-border);
+  box-shadow: var(--shadow-grass);
+  z-index: 1;
+}
+
+/* =======================
+   Bird
+   ======================= */
+.bird {
+  z-index: 3;
+  filter: drop-shadow(var(--shadow-bird));
+  animation: birdFloat 2s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes birdFloat {
+  0%, 100% { transform: translateY(-2px); }
+  50%      { transform: translateY(2px); }
+}
+
+/* تحسـين عرض gif */
+.bird img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* =======================
+   Pipes
+   ======================= */
+.pipe {
+  position: absolute;
+  background: linear-gradient(180deg, var(--pipe-1), var(--pipe-2));
+  border: var(--pipe-border-w) solid var(--pipe-border);
+  border-radius: var(--radius-pipe);
+  z-index: 2;
+  box-shadow: var(--shadow-pipe-inset), var(--shadow-pipe);
+  overflow: visible;
+}
+
+/* Lip */
+.pipe::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--pipe-lip-offset));
+  right: calc(-1 * var(--pipe-lip-offset));
+  height: var(--pipe-lip-h);
+  background: linear-gradient(180deg, var(--pipe-lip-1), var(--pipe-lip-2));
+  border: var(--pipe-border-w) solid var(--pipe-border);
+  border-radius: var(--radius-pipe-lip);
+}
+
+.top-pipe::after { bottom: calc(-1 * var(--pipe-lip-h)); }
+.bottom-pipe::after { top: calc(-1 * var(--pipe-lip-h)); }
+
+/* دخول أنبوب لطيف (اختياري، طبق class pipe_entering إن حبيت) */
+@keyframes pipeEnter {
+  from { opacity: 0; transform: translateX(100px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.pipe_entering { animation: pipeEnter .5s ease-out; }
+
+/* =======================
+   Overlays (Start / Game Over)
+   ======================= */
+.game_over,
+.game_start {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn .4s ease forwards;
+  z-index: 5;
+}
+
+.game_over {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+}
+@supports not (backdrop-filter: blur(4px)) {
+  .game_over { background: rgba(0,0,0,.45); }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.game_title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  color: var(--white);
+  text-shadow: var(--shadow-text);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.game_score {
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 700;
+  color: var(--white);
+  text-shadow: var(--shadow-text);
+  margin-bottom: 24px;
+}
+
+.game_instruction {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--white);
+  text-shadow: var(--shadow-text);
+  margin-bottom: 32px;
+  text-align: center;
+  max-width: 80%;
+}
+
+/* =======================
+   Buttons
+   ======================= */
+.game_button {
+  background: linear-gradient(135deg, var(--btn-1), var(--btn-2));
+  color: var(--white);
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: var(--t-btn);
+  box-shadow: var(--shadow-btn);
+}
+.game_button:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: var(--shadow-btn-hover);
+}
+.game_button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-btn);
+}
+
+/* =======================
+   Score Display
+   ======================= */
+/* استعملها في JSX: <div className="score-display">{score}</div> */
+.score-display {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+
+  font-size: clamp(24px, 3.2vw, 42px);
+  font-weight: 800;
+  letter-spacing: .5px;
+
+  color: #5f2a83; 
+  display:inline-block;
+}
+
+/* بوب صغير عند زيادة النقاط: أضف/أزل class "score-pop" عند الزيادة */
+@keyframes scorePop {
+  0% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.2); }
+  100% { transform: translateX(-50%) scale(1); }
+}
+.score-pop { animation: scorePop .28s ease; }
+
+/* =======================
+   Accessibility / Motion
+   ======================= */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* =======================
+   Dark Mode (optional, تلقائي)
+   ======================= */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sky-1: #2b4b64;
+    --sky-2: #20384c;
+    --ink: #eaf2fb;
+  }
+  body { background: #0c1a24; }
+  .game_area { outline-color: rgba(255,255,255,.14); }
+  .score-display {
+    background-color: rgba(0,0,0,.35);
+    box-shadow:
+      0 4px 10px rgba(0,0,0,.35),
+      inset 0 0 0 1px rgba(255,255,255,.08);
+  }
+}
+
+/* =======================
+   Responsive tweaks
+   ======================= */
+@media (max-width: 768px) {
+  :root { --grass-h: 50px; --pipe-lip-h: 16px; }
+}
+
+@media (max-width: 640px) {
+  :root { --grass-h: 40px; }
+  .game_button { padding: 10px 20px; font-size: 16px; }
+}
+
+@media (max-width: 480px) {
+  :root { --grass-h: 30px; --pipe-lip-h: 12px; }
+}
