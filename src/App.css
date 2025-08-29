@@ -1,8 +1,5 @@
-/* =======================
-   Design Tokens (CSS Vars)
-   ======================= */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap');
 :root {
-  /* Colors */
   --sky-1: #65c6ff;
   --sky-2: #71cbff;
   --grass-1: #58b75c;
@@ -14,14 +11,10 @@
   --pipe-border: #145a32;
   --pipe-lip-1: #34e67a;
   --pipe-lip-2: #1e8449;
-
   --btn-1: #0ea5e9;
   --btn-2: #0284c7;
-
   --white: #ffffff;
   --ink: #0b2239;
-
-  /* Elevation */
   --shadow-container: 0 10px 30px rgba(0,0,0,0.15);
   --shadow-grass: inset 0 4px 6px rgba(0,0,0,0.25);
   --shadow-bird: 0 4px 8px rgba(0,0,0,0.25);
@@ -30,8 +23,6 @@
   --shadow-btn: 0 6px 14px rgba(14,165,233,0.35);
   --shadow-btn-hover: 0 10px 20px rgba(14,165,233,0.45);
   --shadow-text: 0 2px 6px rgba(0,0,0,0.5);
-
-  /* Sizes */
   --radius-container: 16px;
   --radius-pipe: 6px;
   --radius-pipe-lip: 8px;
@@ -42,13 +33,9 @@
   --pipe-lip-h: 20px;
   --pipe-lip-offset: 6px;
 
-  /* Motion */
   --t-btn: transform .08s ease, box-shadow .15s ease, background .2s ease;
 }
 
-/* =======================
-   Base / Reset
-   ======================= */
 *,
 *::before,
 *::after { box-sizing: border-box; }
@@ -61,12 +48,8 @@ body {
   line-height: 1.5;
   margin: 0;
   overflow: hidden;
-
-  /* خلفية أساسية: تدرج سماء */
   background: radial-gradient(circle at 50% 20%, #aee8ff 0%, #65c6ff 40%, #71cbff 100%);
   min-height: 100vh;
-
-  /* غيوم متحركة */
   background-image: url("./pictures/clouds.png"),
                     radial-gradient(circle at 50% 20%, #aee8ff 0%, #65c6ff 40%, #71cbff 100%);
   background-repeat: repeat-x, no-repeat;
@@ -76,7 +59,6 @@ body {
   animation: cloudsBg 180s linear infinite;
 }
 
-/* حركة الغيوم */
 @keyframes cloudsBg {
   from { background-position-x: 0, center; }
   to   { background-position-x: -2400px, center; }
@@ -88,9 +70,6 @@ img {
   display: block;
 }
 
-/* =======================
-   Layout
-   ======================= */
 .game_container {
   display: grid;
   place-items: center;
@@ -104,18 +83,12 @@ img {
   overflow: hidden;
   border-radius: var(--radius-container);
   box-shadow: var(--shadow-container);
-  /* عرض مرن ليلائم الموبايل */
   width: clamp(320px, 90vw, 600px);
-  /* الخلفية: سماء → سماء أغمق → تدرج للأرض */
   background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 80%, #8fd77f 100%);
   isolation: isolate;
   outline: 2px solid rgba(255, 255, 255, 0.25);
 }
 
-/* =======================
-   Background Layers
-   ======================= */
-/* Clouds */
 .game_area::before {
   content: "";
   position: absolute;
@@ -134,7 +107,6 @@ img {
   to   { background-position-x: -2000px; }
 }
 
-/* Ground */
 .game_area::after {
   content: "";
   position: absolute;
@@ -147,9 +119,6 @@ img {
   z-index: 1;
 }
 
-/* =======================
-   Bird
-   ======================= */
 .bird {
   z-index: 3;
   filter: drop-shadow(var(--shadow-bird));
@@ -162,7 +131,6 @@ img {
   50%      { transform: translateY(2px); }
 }
 
-/* تحسـين عرض gif */
 .bird img {
   width: 40px;
   height: 40px;
@@ -170,9 +138,6 @@ img {
   image-rendering: -webkit-optimize-contrast;
 }
 
-/* =======================
-   Pipes
-   ======================= */
 .pipe {
   position: absolute;
   background: linear-gradient(180deg, var(--pipe-1), var(--pipe-2));
@@ -183,7 +148,6 @@ img {
   overflow: visible;
 }
 
-/* Lip */
 .pipe::after {
   content: "";
   position: absolute;
@@ -198,16 +162,12 @@ img {
 .top-pipe::after { bottom: calc(-1 * var(--pipe-lip-h)); }
 .bottom-pipe::after { top: calc(-1 * var(--pipe-lip-h)); }
 
-/* دخول أنبوب لطيف (اختياري، طبق class pipe_entering إن حبيت) */
 @keyframes pipeEnter {
   from { opacity: 0; transform: translateX(100px); }
   to   { opacity: 1; transform: translateX(0); }
 }
 .pipe_entering { animation: pipeEnter .5s ease-out; }
 
-/* =======================
-   Overlays (Start / Game Over)
-   ======================= */
 .game_over,
 .game_start {
   position: absolute;
@@ -256,9 +216,6 @@ img {
   max-width: 80%;
 }
 
-/* =======================
-   Buttons
-   ======================= */
 .game_button {
   background: linear-gradient(135deg, var(--btn-1), var(--btn-2));
   color: var(--white);
@@ -280,10 +237,6 @@ img {
   box-shadow: var(--shadow-btn);
 }
 
-/* =======================
-   Score Display
-   ======================= */
-/* استعملها في JSX: <div className="score-display">{score}</div> */
 .score-display {
   position: absolute;
   top: 16px;
@@ -295,11 +248,10 @@ img {
   font-weight: 800;
   letter-spacing: .5px;
 
-  color: #5f2a83; 
+  color: #38435e; 
   display:inline-block;
 }
 
-/* بوب صغير عند زيادة النقاط: أضف/أزل class "score-pop" عند الزيادة */
 @keyframes scorePop {
   0% { transform: translateX(-50%) scale(1); }
   50% { transform: translateX(-50%) scale(1.2); }
@@ -307,20 +259,14 @@ img {
 }
 .score-pop { animation: scorePop .28s ease; }
 
-/* =======================
-   Accessibility / Motion
-   ======================= */
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
 
-/* =======================
-   Dark Mode (optional, تلقائي)
-   ======================= */
 @media (prefers-color-scheme: dark) {
   :root {
     --sky-1: #2b4b64;
-    --sky-2: #20384c;
+    --sky-2: #4c4820;
     --ink: #eaf2fb;
   }
   body { background: #0c1a24; }
@@ -333,9 +279,7 @@ img {
   }
 }
 
-/* =======================
-   Responsive tweaks
-   ======================= */
+
 @media (max-width: 768px) {
   :root { --grass-h: 50px; --pipe-lip-h: 16px; }
 }
@@ -348,3 +292,29 @@ img {
 @media (max-width: 480px) {
   :root { --grass-h: 30px; --pipe-lip-h: 12px; }
 }
+footer{
+  font-family: "Cairo", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial, "Noto Sans Arabic", sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+
+  padding:12px 16px;
+  color:#262e46;
+font-size:1.5rem;
+  font-weight:800;
+  letter-spacing:.2px;
+  position:relative;
+}
+
+footer i{
+  opacity:.9;
+  font-size:1.5rem;
+  transform:translateY(1px); 
+  font-family: "Cairo", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial, "Noto Sans Arabic", sans-serif;
+  font-weight:900;
+
+}
+
