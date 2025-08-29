@@ -31,8 +31,9 @@ Example:
 ---
 ## Running The Game
 first you must install node js from here : https://nodejs.org/fr/download
-then press in your keyboard to windows + R then terminal will open then write 
-this instructions into your terminal :
+then install git from here : https://git-scm.com/downloads/win
+then open git and write 
+thess instructions into your git :
 
 # ✅ Method 1: Run in Development Mode
 ### 1. Clone the repository
