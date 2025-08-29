@@ -15,8 +15,8 @@ It is designed to demonstrate:
 
 Example:  
 
-![Flappy Bird Demo 1](./src/1.png)
-![Flappy Bird Demo 2](./src/2.png)
+![Flappy Bird Demo 1](./src/assets/1.png)
+![Flappy Bird Demo 2](./src/assets/2.png)
 
 
 ---
