@@ -29,8 +29,7 @@ Example:
 - ✅ Simple, clean React structure for learning and extension.  
 
 ---
-## Running APP
-
+## Running The Game
 first you must install node js from here : https://nodejs.org/fr/download
 then press in your keyboard to windows + R then terminal will open then write 
 this instructions into your terminal :
@@ -57,4 +56,5 @@ npm install
 
 ### 3. Start the development server
 npm run dev    
+
 ---
