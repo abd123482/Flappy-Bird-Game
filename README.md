@@ -30,6 +30,3 @@ Example:
 
 ---
 
-## 🛠️ Tech Stack
-- **React** (functional components + hooks)  
-- **JavaScript (ES6+)**  
