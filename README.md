@@ -35,26 +35,26 @@ first you must install node js from here : https://nodejs.org/fr/download
 then press in your keyboard to windows + R then terminal will open then write 
 this instructions into your terminal :
 
-## ✅ Method 1: Run in Development Mode
-# 1. Clone the repository
+# ✅ Method 1: Run in Development Mode
+### 1. Clone the repository
 git clone https://github.com/abd123482/Flappy-Bird-Game.git
 
-# 2. Go inside the project
+### 2. Go inside the project
 cd Flappy-Bird-Game
 
-# 3. Install dependencies
+### 3. Install dependencies
 npm install   
 
-# 4. Start the React development server
+### 4. Start the React development server
 npm run dev  
 
-## ✅ Method 2: Run project that already exists on your computer
-# 1. Go inside the project folder (replace with your path)
+# ✅ Method 2: Run project that already exists on your computer
+### 1. Go inside the project folder (replace with your path)
 cd path/to/Flappy-Bird-Game
 
-# 2. Install dependencies (only once)
+### 2. Install dependencies (only once)
 npm install 
 
-# 3. Start the development server
+### 3. Start the development server
 npm run dev    
 ---
